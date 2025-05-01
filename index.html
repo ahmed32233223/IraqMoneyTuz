@@ -1,67 +1,151 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IraqMoneyTuz - عروض ربح من الإنترنت</title>
+  <title>IraqMoneyTuz - ربح من العروض</title>
   <style>
     body {
-      font-family: 'Tahoma', sans-serif;
-      background: #f0f2f5;
+      font-family: Tahoma, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      direction: rtl;
       margin: 0;
       padding: 0;
-      direction: rtl;
     }
     header {
-      background: #0088cc;
-      color: white;
+      background-color: #b30000;
       padding: 20px;
       text-align: center;
     }
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+    .banner {
+      width: 100%;
+      height: 200px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/f/f6/Flag_map_of_Iraq.svg') center/cover no-repeat;
+      border-bottom: 4px solid #ff0000;
+    }
     .container {
-      max-width: 900px;
+      max-width: 600px;
       margin: 30px auto;
-      padding: 0 20px;
-    }
-    .offer {
-      background: white;
+      background-color: #2a2a2a;
       padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 0 10px #000;
     }
-    .offer h2 {
-      margin-top: 0;
-      color: #333;
+    h2 {
+      color: #ff3333;
     }
-    .offer p {
-      color: #555;
-    }
-    .offer a {
-      display: inline-block;
-      margin-top: 10px;
-      background: #28a745;
-      color: white;
-      padding: 10px 15px;
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 90%;
       border-radius: 5px;
-      text-decoration: none;
+      border: none;
     }
-    .offer a:hover {
-      background: #218838;
+    .btn {
+      background-color: #ff3333;
+      color: white;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #cc0000;
+    }
+    #payeer-section {
+      display: none;
+    }
+    .offer-card {
+      background-color: #333;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    .offer-title {
+      font-size: 20px;
+      color: #ffcc00;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>IraqMoneyTuz - فرص ربح من الإنترنت</h1>
+    <h1>IraqMoneyTuz - ربح من الإنترنت</h1>
   </header>
+  <div class="banner"></div>
+
   <div class="container">
-    <div class="offer">
-      <h2>مثال على عرض CPA</h2>
-      <p>هذا مثال توضيحي، يمكنك تعديل الرابط أدناه لاحقًا عند حصولك على عروض CPA حقيقية.</p>
-      <a href="#">جرب الآن</a>
+    <h2>نظام النقاط</h2>
+    <p>نقاطك الحالية: <span id="points">0</span></p>
+    <button onclick="addPoints(50)" class="btn">تنفيذ عرض (إضافة 50 نقطة)</button>
+
+    <hr style="margin: 20px 0; border-color: #444" />
+
+    <h2>العروض (Offer)</h2>
+    <div class="offer-card">
+      <div class="offer-title">عرض 1: احصل على 100 نقطة</div>
+      <p>شارك في الاستطلاع المجاني واحصل على 100 نقطة.</p>
+      <button onclick="addPoints(100)" class="btn">تنفيذ العرض</button>
+    </div>
+    <div class="offer-card">
+      <div class="offer-title">عرض 2: احصل على 50 نقطة</div>
+      <p>سجل للحصول على خدمة مجانية واحصل على 50 نقطة.</p>
+      <button onclick="addPoints(50)" class="btn">تنفيذ العرض</button>
+    </div>
+
+    <hr style="margin: 20px 0; border-color: #444" />
+
+    <button onclick="checkWithdraw()" class="btn">سحب الأرباح</button>
+    <div id="payeer-section">
+      <p>أدخل معرف محفظة Payeer:</p>
+      <input type="text" id="payeer-id" placeholder="مثال: P12345678" />
+      <button onclick="withdraw()" class="btn">تأكيد السحب</button>
     </div>
   </div>
+
+  <footer>
+    جميع الحقوق محفوظة © IraqMoneyTuz 2025
+  </footer>
+
+  <script>
+    let points = localStorage.getItem("points") || 0;
+    document.getElementById("points").innerText = points;
+
+    function addPoints(amount) {
+      points = parseInt(points) + amount;
+      localStorage.setItem("points", points);
+      document.getElementById("points").innerText = points;
+    }
+
+    function checkWithdraw() {
+      if (points >= 100) {
+        document.getElementById("payeer-section").style.display = "block";
+      } else {
+        alert("يجب أن تمتلك 100 نقطة على الأقل لسحب الأرباح.");
+      }
+    }
+
+    function withdraw() {
+      const payeerId = document.getElementById("payeer-id").value;
+      if (!payeerId.startsWith("P")) {
+        alert("يرجى إدخال معرف Payeer صحيح.");
+        return;
+      }
+      let usd = (points / 1000).toFixed(2);
+      alert("تم طلب سحب " + usd + " دولار إلى حساب " + payeerId);
+      points = 0;
+      localStorage.setItem("points", points);
+      document.getElementById("points").innerText = points;
+      document.getElementById("payeer-section").style.display = "none";
+    }
+  </script>
 </body>
 </html>
